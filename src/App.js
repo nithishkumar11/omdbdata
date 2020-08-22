@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
+import React,{Component} from 'react';
+import Search from './Search';
+import Movies from './Movies';
 import './App.css';
+import 'tachyons';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(){
+    super()
+    this.state = {
+      input : '',
+      details : {},
+      clicked:false
+    }
+  }
+  gettitle = (event)=>{
+    this.setState({input : event.target.value})
+  }
+  onButtonClick =()=>{
+      
+      const url = `http://www.omdbapi.com/?apikey=ab399ca6&t=${this.state.input}`;
+      fetch(url).then(r=>r.json()).then(d =>this.setState({details : d}));
+      if(this.state.details.length!==0){
+        this.setState({clicked:true})
+      }
+  }
+  render(){
+    return(
+
+      <div className = "f" >
+        <Search GetTitle = {this.gettitle} OnButtonClick = {this.onButtonClick} />
+
+        <Movies isclicked = {this.state.clicked} detail = {this.state.details} />
+      </div>
+    );
+  }
 }
 
 export default App;
