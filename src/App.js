@@ -18,7 +18,7 @@ class App extends Component {
   }
   onButtonClick =()=>{
       
-      const url = `http://www.omdbapi.com/?apikey=ab399ca6&t=${this.state.input}`;
+      const url = `http://www.omdbapi.com/?t=${this.state.input}`;
       fetch(url).then(r=>r.json()).then(d =>this.setState({details : d}));
       if(this.state.details.length!==0){
         this.setState({clicked:true})
